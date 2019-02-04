@@ -1,66 +1,55 @@
 ﻿using System.IO;
 using System.Data.SQLite;
-using System.Collections.Generic;
-using System;
 
 namespace Planner
 {
     class Database
     {
-        //Database name.
-        private string DatabaseName;
+        //Connection to database with tasks.
+        public SQLiteConnection DatabaseConnection;
 
-        public Database(string db_name)
+        public Database(string DBName)
         {
-            DatabaseName = db_name;
-            if (!(this.IsExists()))
+            //Creating the empty .sqlite file with necessary tables if it does not exist.
+            if (!File.Exists(DBName))
             {
-                this.Create(this.DatabaseName);
-                Console.WriteLine("База данных создана");
-            }
-        }
-
-        bool IsExists()
-        {
-            return File.Exists(DatabaseName);
-        }
-
-        //Creates database with tasks shedule.
-        void Create(string db_name)
-        {
-            DatabaseName = db_name;
-            //Just creating the empty .sqlite file.
-            SQLiteConnection.CreateFile(db_name);
-            string connString = string.Format("Data Source = {0}", db_name);
-            //Command strings for creating tables.
-            Queue<string> createStrings = new Queue<string>(2);
-            createStrings.Enqueue("CREATE TABLE Priority (id INTEGER PRIMARY KEY, name text(255))");
-            createStrings.Enqueue("CREATE TABLE Tasks (" +
-                "id integer primary key," +
-                "name text(255)," +
-                "description text(255)," +
-                "date text default(date('now'))," +
-                "time text default(time('now'))," +
-                "priority int references Priority(id)" +
-                ");"
-                );
-            using (SQLiteConnection connection = new SQLiteConnection(connString))
-            {
+                //Creating .sqlite file.
+                SQLiteConnection.CreateFile(DBName);
                 try
                 {
+                    //Creating tables in database.
+                    SQLiteConnection connection = new SQLiteConnection(string.Format("Data Source = {0}", DBName));
+                    SQLiteCommand foreignKey = new SQLiteCommand("PRAGMA foreign_keys=ON", connection);
+                    SQLiteCommand prior = new SQLiteCommand("CREATE TABLE Priority (id INTEGER PRIMARY KEY, name text(255))", connection);
+                    SQLiteCommand tasks = new SQLiteCommand(
+                        "CREATE TABLE Tasks(" +
+                        "id INTEGER PRIMARY KEY," +
+                        "name text(255)," +
+                        "description text(255)," +
+                        "date text default(date('now'))," +
+                        "time text default(time('now'))," +
+                        "priority int REFERENCES Priority(id))", connection);
                     connection.Open();
-                    foreach (string i in createStrings)
-                    {
-                        SQLiteCommand currentCommnand = new SQLiteCommand(i, connection);
-                        currentCommnand.ExecuteNonQuery();
-                    }
+                    foreignKey.ExecuteNonQuery();
+                    prior.ExecuteNonQuery();
+                    tasks.ExecuteNonQuery();
                     connection.Close();
                 }
-                catch (Exception e)
+                catch (System.Exception)
                 {
-                    Console.WriteLine(e);
+                    throw;
                 }
+                System.Console.WriteLine("База данных создана... {0}", DBName);
             }
+            try
+            {
+                DatabaseConnection = new SQLiteConnection(DBName);
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+
         }
     }
 }
