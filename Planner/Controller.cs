@@ -11,11 +11,12 @@ namespace Planner
         public Controller(Database dB)
         {
             Commands = new List<Command>();
+            Commands.Add(new AddCommand(dB.Connection, "добавить", "Добавить мероприятие в список"));
         }
 
         public Command FindCommand(string name)
         {
-            return Commands.Find(comm => string.Equals(comm.Name, name));
+            return Commands.Find(comm => string.Equals(comm.GetName(), name));
         }
 
         public IEnumerator<Command> GetEnumerator()

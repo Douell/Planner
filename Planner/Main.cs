@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SQLite;
 
 namespace Planner
 {
@@ -9,8 +10,8 @@ namespace Planner
         const string EXIT = "выход";
 
         public static void Main(string[] arg)
-        { 
-            Database dbase = new Database("D:\\planner.sqlite");
+        {
+            Database dbase = new Database(".\\planner.sqlite");
             Controller controller = new Controller(dbase);
             Hello();
             string command = "";
@@ -18,7 +19,7 @@ namespace Planner
             {
                 Console.Write("Планировщик>");
                 command = Console.ReadLine().Trim();
-                if(string.Equals(command, ""))
+                if (string.Equals(command, ""))
                 {
                     continue;
                 }
@@ -29,8 +30,14 @@ namespace Planner
                 else if (string.Equals(command, HELP))
                 {
                     Help(controller);
+                    continue;
                 }
-                else if(controller.FindCommand(command) == null)
+                Command inputCommand = controller.FindCommand(command);
+                if (inputCommand != null)
+                {
+                    inputCommand.Commit();
+                }
+                else
                 {
                     Console.WriteLine("Команда не распознана");
                 }
@@ -42,7 +49,7 @@ namespace Planner
             Console.WriteLine("Доступные команды:");
             foreach (var command in commands)
             {
-                Console.WriteLine("{0, -10}\t{1}", command.Name, command.Description);
+                Console.WriteLine(command);
             }
             Console.WriteLine("{0, -10}\tВызов справки", HELP);
             Console.WriteLine("{0, -10}\tВыход", EXIT);
