@@ -10,8 +10,11 @@ namespace Planner
 
         public Controller(Database dB)
         {
-            Commands = new List<Command>();
-            Commands.Add(new AddCommand(dB.Connection, "добавить", "Добавить мероприятие в список"));
+            Commands = new List<Command>
+            {
+                new AddCommand(dB.Connection, "добавить", "Добавить мероприятие в список"),
+                new ShowCommand(dB.Connection, "показать", "Вывести список всех запланированных мероприятий")
+            };
         }
 
         public Command FindCommand(string name)

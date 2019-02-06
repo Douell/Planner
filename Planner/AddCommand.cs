@@ -20,17 +20,17 @@ namespace Planner
             //Inserting task name.
             do
             {
-                Console.Write("{0}>Введите название мероприятия: ", this.Name);
+                Console.Write("{0}> Введите название мероприятия: ", this.Name);
             } while ((name = Console.ReadLine()) == "");
             //Inserting task description.
             do
             {
-                Console.Write("{0}>Введите описание мероприятия: ", this.Name);
+                Console.Write("{0}> Введите описание мероприятия: ", this.Name);
             } while ((descr = Console.ReadLine()) == "");
             //Inserting task date.
             while (true)
             {
-                Console.Write("{0}>Введите дату проведения мероприятия в формате ДД.ММ.ГГГГ: ", this.Name);
+                Console.Write("{0}> Введите дату проведения мероприятия в формате ДД.ММ.ГГГГ: ", this.Name);
                 date = Console.ReadLine();
                 if (date == "")
                 {
@@ -52,7 +52,7 @@ namespace Planner
             //Inserting task time.
             while (true)
             {
-                Console.Write("{0}>Введите время проведения мероприятия в формате ЧЧ:ММ (24ч): ", this.Name);
+                Console.Write("{0}> Введите время проведения мероприятия в формате ЧЧ:ММ (24ч): ", this.Name);
                 time = Console.ReadLine();
                 if (time == "")
                 {
@@ -73,7 +73,7 @@ namespace Planner
             //Inserting task priority.
             while (true)
             {
-                Console.Write("{0}>Введите приоритет задачи (1 - высокий, 2 - средний, 3 - низкий): ", this.Name);
+                Console.Write("{0}> Введите приоритет задачи (1 - высокий, 2 - средний, 3 - низкий): ", this.Name);
                 priority = Console.ReadLine();
                 if (priority == "")
                 {
