@@ -13,7 +13,8 @@ namespace Planner
             Commands = new List<Command>
             {
                 new AddCommand(dB.Connection, "добавить", "Добавить мероприятие в список"),
-                new ShowCommand(dB.Connection, "показать", "Вывести список всех запланированных мероприятий")
+                new ShowCommand(dB.Connection, "показать", "Вывести список всех запланированных мероприятий"),
+                new DeleteCommand(dB.Connection, "удалить", "Удалить мероприятие")
             };
         }
 
