@@ -95,8 +95,8 @@ namespace Planner
             SQLiteCommand foreignKey = new SQLiteCommand("PRAGMA foreign_keys=ON", this.Connect);
             string[] stringParams = { "@name", "@desc", "@date", "@time" };
             SQLiteCommand add = new SQLiteCommand(
-                String.Format("INSERT INTO Tasks(name, description, date, time, priority) VALUES (" +
-                "{0}, @priority)", String.Join(", ", stringParams)), this.Connect);
+                String.Format("INSERT INTO Tasks(name, description, date, time, priority) " +
+                "VALUES ({0}, @priority)", String.Join(", ", stringParams)), this.Connect);
             //Creating commands parameters.
             foreach (var param in stringParams)
             {
