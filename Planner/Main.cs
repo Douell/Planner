@@ -10,7 +10,7 @@ namespace Planner
 
         public static void Main(string[] arg)
         {
-            Database dbase = new Database("D:\\planner.sqlite");
+            Database dbase = new Database(".\\planner.sqlite");
             Controller controller = new Controller(dbase);
             Hello();
             string command = "";
